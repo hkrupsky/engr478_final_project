@@ -1,0 +1,47 @@
+Dependencies for Project 'final_project', Target 'Target 1': (DO NOT MODIFY !)
+CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
+F (.\final_project.c)(0x5FBFE1BE)(-c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\.. --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\final_project.o --omf_browse .\objects\final_project.crf --depend .\objects\final_project.d)
+I (E:\Keil\ARM\INC\TI\TM4C123\TM4C123GH6PM.h)(0x559DB4B0)
+I (E:\Keil\ARM\CMSIS\Include\core_cm4.h)(0x559DBE8A)
+I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
+I (E:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x559DBE8A)
+I (E:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x559DBE8A)
+I (E:\Keil\ARM\CMSIS\Include\core_cm4_simd.h)(0x559DBE8A)
+I (E:\Keil\ARM\INC\TI\TM4C123\system_TM4C123.h)(0x559DB4B0)
+I (E:\Keil\ARM\ARMCC\include\stdbool.h)(0x5EC848E6)
+I (E:\Keil\ARM\ARMCC\include\stdlib.h)(0x5EC848EC)
+I (E:\Keil\ARM\ARMCC\include\string.h)(0x5EC848F4)
+I (E:\Keil\ARM\ARMCC\include\stdio.h)(0x5EC848EC)
+I (final_project.h)(0x5FADCCDC)
+I (..\..\..\..\inc/hw_types.h)(0x5F45A3FE)
+I (..\..\..\..\inc/hw_gpio.h)(0x5F45A3FE)
+I (..\..\..\..\driverlib/sysctl.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/pin_map.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/rom_map.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/gpio.h)(0x5F45A3FB)
+I (..\..\..\..\inc/tm4c123gh6pm.h)(0x5F45A3FE)
+I (..\..\..\..\driverlib/uart.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/interrupt.h)(0x5F45A3FB)
+I (MPU9250_reg.h)(0x5FADF082)
+I (..\..\..\..\utils/uartstdio.h)(0x5F45A404)
+I (E:\Keil\ARM\ARMCC\include\stdarg.h)(0x5EC848EC)
+F (.\utilities.c)(0x5903667E)(-c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\.. --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\utilities.o --omf_browse .\objects\utilities.crf --depend .\objects\utilities.d)
+I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
+I (defines.h)(0x5903667E)
+F (.\startup_rvmdk.S)(0x5FA9F596)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123--pd "__UVISION_VERSION SETA 531"--list .\listings\startup_rvmdk.lst --xref -o .\objects\startup_rvmdk.o --depend .\objects\startup_rvmdk.d)
+F (..\..\..\..\driverlib\rvmdk\driverlib.lib)(0x5F45A3FB)()
+F (..\..\..\..\utils\uartstdio.c)(0x5F45A404)(-c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections -I ..\..\..\.. --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\uartstdio.o --omf_browse .\objects\uartstdio.crf --depend .\objects\uartstdio.d)
+I (E:\Keil\ARM\ARMCC\include\stdbool.h)(0x5EC848E6)
+I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
+I (E:\Keil\ARM\ARMCC\include\stdarg.h)(0x5EC848EC)
+I (..\..\..\..\inc/hw_ints.h)(0x5F45A3FE)
+I (..\..\..\..\inc/hw_memmap.h)(0x5F45A3FE)
+I (..\..\..\..\inc/hw_types.h)(0x5F45A3FE)
+I (..\..\..\..\inc/hw_uart.h)(0x5F45A3FE)
+I (..\..\..\..\driverlib/debug.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/interrupt.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/rom.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/rom_map.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/sysctl.h)(0x5F45A3FB)
+I (..\..\..\..\driverlib/uart.h)(0x5F45A3FB)
+I (..\..\..\..\utils/uartstdio.h)(0x5F45A404)

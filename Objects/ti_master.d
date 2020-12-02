@@ -1,0 +1,11 @@
+.\objects\ti_master.o: ..\..\..\peripherals\ssi\ti_master.c
+.\objects\ti_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\ti_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ti_master.o: ..\..\..\..\inc/hw_memmap.h
+.\objects\ti_master.o: ..\..\..\..\driverlib/gpio.h
+.\objects\ti_master.o: ..\..\..\..\driverlib/pin_map.h
+.\objects\ti_master.o: ..\..\..\..\driverlib/ssi.h
+.\objects\ti_master.o: ..\..\..\..\driverlib/sysctl.h
+.\objects\ti_master.o: ..\..\..\..\driverlib/uart.h
+.\objects\ti_master.o: ..\..\..\..\utils/uartstdio.h
+.\objects\ti_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdarg.h

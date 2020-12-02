@@ -1,0 +1,13 @@
+.\rvmdk\heap_1.o: FreeRTOS\portable\MemMang\heap_1.c
+.\rvmdk\heap_1.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\FreeRTOS.h
+.\rvmdk\heap_1.o: E:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+.\rvmdk\heap_1.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\rvmdk\heap_1.o: .\FreeRTOSConfig.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\projdefs.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\portable.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\deprecated_definitions.h
+.\rvmdk\heap_1.o: .\FreeRTOS\portable\RVDS\ARM_CM4F\portmacro.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\mpu_wrappers.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\task.h
+.\rvmdk\heap_1.o: .\FreeRTOS\include\list.h

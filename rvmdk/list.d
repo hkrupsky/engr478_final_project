@@ -1,0 +1,12 @@
+.\rvmdk\list.o: FreeRTOS\list.c
+.\rvmdk\list.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\rvmdk\list.o: .\FreeRTOS\include\FreeRTOS.h
+.\rvmdk\list.o: E:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+.\rvmdk\list.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\rvmdk\list.o: .\FreeRTOSConfig.h
+.\rvmdk\list.o: .\FreeRTOS\include\projdefs.h
+.\rvmdk\list.o: .\FreeRTOS\include\portable.h
+.\rvmdk\list.o: .\FreeRTOS\include\deprecated_definitions.h
+.\rvmdk\list.o: .\FreeRTOS\portable\RVDS\ARM_CM4F\portmacro.h
+.\rvmdk\list.o: .\FreeRTOS\include\mpu_wrappers.h
+.\rvmdk\list.o: .\FreeRTOS\include\list.h

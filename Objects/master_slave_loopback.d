@@ -1,0 +1,13 @@
+.\objects\master_slave_loopback.o: ..\..\..\peripherals\i2c\master_slave_loopback.c
+.\objects\master_slave_loopback.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\master_slave_loopback.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\master_slave_loopback.o: ..\..\..\..\inc/hw_i2c.h
+.\objects\master_slave_loopback.o: ..\..\..\..\inc/hw_memmap.h
+.\objects\master_slave_loopback.o: ..\..\..\..\inc/hw_types.h
+.\objects\master_slave_loopback.o: ..\..\..\..\driverlib/gpio.h
+.\objects\master_slave_loopback.o: ..\..\..\..\driverlib/i2c.h
+.\objects\master_slave_loopback.o: ..\..\..\..\driverlib/pin_map.h
+.\objects\master_slave_loopback.o: ..\..\..\..\driverlib/sysctl.h
+.\objects\master_slave_loopback.o: ..\..\..\..\driverlib/uart.h
+.\objects\master_slave_loopback.o: ..\..\..\..\utils/uartstdio.h
+.\objects\master_slave_loopback.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdarg.h

@@ -1,0 +1,14 @@
+.\objects\hal_pll.o: hal\HAL_PLL.c
+.\objects\hal_pll.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\hal_pll.o: hal\HAL.h
+.\objects\hal_pll.o: hal\HAL_NVIC.h
+.\objects\hal_pll.o: hal\HAL_PLL.h
+.\objects\hal_pll.o: hal\HAL_SysTick.h
+.\objects\hal_pll.o: hal\HAL_UART.h
+.\objects\hal_pll.o: hal\HAL_GPIO.h
+.\objects\hal_pll.o: hal\HAL_ADC.h
+.\objects\hal_pll.o: hal\HAL_PWM.h
+.\objects\hal_pll.o: hal\HAL_Timer.h
+.\objects\hal_pll.o: hal\HAL_SPI.h
+.\objects\hal_pll.o: hal\HAL_Flash.h
+.\objects\hal_pll.o: hal\tm4c123gh6pm.h

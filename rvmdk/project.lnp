@@ -1,0 +1,20 @@
+--cpu=Cortex-M4.fp.sp
+".\rvmdk\project.o"
+".\rvmdk\startup_rvmdk.o"
+".\rvmdk\midi.o"
+".\rvmdk\midi-tune.o"
+".\rvmdk\hal_gpio.o"
+".\rvmdk\hal_nvic.o"
+".\rvmdk\hal_pll.o"
+".\rvmdk\hal_pwm.o"
+".\rvmdk\strings.o"
+".\rvmdk\list.o"
+".\rvmdk\queue.o"
+".\rvmdk\tasks.o"
+".\rvmdk\timers.o"
+".\rvmdk\port.o"
+".\rvmdk\heap_1.o"
+--library_type=microlib --strict --scatter "project.sct"
+--entry Reset_Handler --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\rvmdk\project.map" -o .\rvmdk\project.axf

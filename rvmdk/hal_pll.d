@@ -1,0 +1,14 @@
+.\rvmdk\hal_pll.o: hal\HAL_PLL.c
+.\rvmdk\hal_pll.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\rvmdk\hal_pll.o: hal\HAL.h
+.\rvmdk\hal_pll.o: hal\HAL_NVIC.h
+.\rvmdk\hal_pll.o: hal\HAL_PLL.h
+.\rvmdk\hal_pll.o: hal\HAL_SysTick.h
+.\rvmdk\hal_pll.o: hal\HAL_UART.h
+.\rvmdk\hal_pll.o: hal\HAL_GPIO.h
+.\rvmdk\hal_pll.o: hal\HAL_ADC.h
+.\rvmdk\hal_pll.o: hal\HAL_PWM.h
+.\rvmdk\hal_pll.o: hal\HAL_Timer.h
+.\rvmdk\hal_pll.o: hal\HAL_SPI.h
+.\rvmdk\hal_pll.o: hal\HAL_Flash.h
+.\rvmdk\hal_pll.o: hal\tm4c123gh6pm.h

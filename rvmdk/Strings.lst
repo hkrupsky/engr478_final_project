@@ -1,0 +1,126 @@
+L 1 "utilities\Strings.c"
+N// File:  Strings.c
+N// Author: JSpicer
+N// Date:  10/06/17
+N// Purpose: Misc. string utility functions.
+N// Hardware:  TM4C123 Tiva board
+N
+N#include "Strings.h"
+L 1 "utilities\Strings.h" 1
+N// File:  Strings.h
+N// Author: JSpicer
+N// Date:  10/06/17
+N// Purpose: Misc. string utility functions.
+N// Hardware:  TM4C123 Tiva board
+N  
+N// itoa:  convert n to characters in s.
+Nvoid itoa(int n, char s[]);
+N
+N// reverse:  reverse string s in place.
+Nvoid reverse(char s[]);
+N
+N// strlen: counts the number of s. 
+Nint strlen(const char* s);
+N
+N// strncpy:  copy the source string into the destination not exceeding n characters. 
+Nchar* strncpy(char *dst, const char *src, int n);
+N
+N// isspace:  return true if the character is whitespace. 
+Nint isspace(char c);
+N
+N// isdigit:  return true if the character is a digit. 
+Nint isdigit(char c);
+N
+N// atoi:  convert string s to integer 
+Nint atoi(const char *s);
+L 8 "utilities\Strings.c" 2
+N
+N// itoa:  convert n to characters in s 
+N// This function appeared in the first edition of Kernighan and Ritchie's The C Programming Language.
+N// Derived from https://en.wikibooks.org/wiki/C_Programming/stdlib.h/itoa
+Nvoid itoa(int n, char s[])
+N{
+N	 int i, sign;
+N
+N	 if ((sign = n) < 0)  /* record sign */
+N			 n = -n;          /* make n positive */
+N	 i = 0;
+N	 do {       /* generate digits in reverse order */
+N			 s[i++] = n % 10 + '0';   /* get next digit */
+N	 } while ((n /= 10) > 0);     /* delete it */
+N	 if (sign < 0)
+N			 s[i++] = '-';
+N	 s[i] = '\0';
+N	 reverse(s);
+N}
+N
+N// Returns the lenght of a null-terminated string.
+Nint strlen(const char* s)
+N{
+N	int length = 0;
+N	while (*s++) {
+N		length++;
+N	}
+N	return length;
+N}
+N
+N
+N// reverse:  reverse string s in place 
+N// This function appeared in the first edition of Kernighan and Ritchie's The C Programming Language 
+N// Derived from https://en.wikibooks.org/wiki/C_Programming/stdlib.h/itoa
+Nvoid reverse(char s[])
+N{
+N	 int i, j;
+N	 char c;
+N
+N	 for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+N			 c = s[i];
+N			 s[i] = s[j];
+N			 s[j] = c;
+N	 }
+N}
+N
+N// strncpy:  copy the source string into the destination not exceeding n characters.
+Nchar* strncpy(char *dst, const char *src, int n)
+N{
+N	
+N	int i = 0;
+N	for (; i < n && src[i]; i++) {
+N		dst[i] = src[i];
+N	}
+N	
+N	for (int j = i; j < n; j++) {
+N		dst[j] = '\0';
+N	}
+N	
+N	return dst;
+N}
+N
+N
+N// isspace:  return true if the character is whitespace.
+Nint isspace(char c)
+N{
+N	return (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c =='\f' || c == '\r');
+N}
+N
+N// isdigit:  return true if the character is a digit.
+Nint isdigit(char c)
+N{
+N	return (c >= '0' && c <= '9');
+N}
+N
+N// atoi:  convert string s to integer
+N// Derived from https://github.com/thvdburgt/KnR-The-C-Programming-Language-Solutions/blob/master/Chapter%205/5-6/atoi.c
+Nint atoi(const char *s)
+N{
+N    int n, sign;
+N    
+N    while (isspace(*s))
+N        s++;                        /* skip whitespace */
+N    sign = (*s == '-') ? -1 : 1;
+N    if (*s == '+' || *s == '-')     /* skip sign */
+N        s++;
+N    for (n = 0; isdigit(*s); s++)
+N        n = 10 * n + (*s -'0');
+N    return sign * n;
+N}

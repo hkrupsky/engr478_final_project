@@ -1,0 +1,11 @@
+.\objects\spi_master.o: ..\..\..\peripherals\ssi\spi_master.c
+.\objects\spi_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\spi_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\spi_master.o: ..\..\..\..\inc/hw_memmap.h
+.\objects\spi_master.o: ..\..\..\..\driverlib/gpio.h
+.\objects\spi_master.o: ..\..\..\..\driverlib/pin_map.h
+.\objects\spi_master.o: ..\..\..\..\driverlib/ssi.h
+.\objects\spi_master.o: ..\..\..\..\driverlib/sysctl.h
+.\objects\spi_master.o: ..\..\..\..\driverlib/uart.h
+.\objects\spi_master.o: ..\..\..\..\utils/uartstdio.h
+.\objects\spi_master.o: E:\Keil\ARM\ARMCC\Bin\..\include\stdarg.h
