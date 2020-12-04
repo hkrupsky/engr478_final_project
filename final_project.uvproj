@@ -445,7 +445,7 @@
             <File>
               <FileName>midi-tune.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\midifile\visual-studio\ExportMidi\midi-tune.c</FilePath>
+              <FilePath>.\midifile\midi-tune.c</FilePath>
             </File>
             <File>
               <FileName>FreeRTOSConfig.h</FileName>

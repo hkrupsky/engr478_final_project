@@ -37,12 +37,12 @@ void UART_Transmitter(unsigned char data);
 void printstring(char *str);
 void MPU9250_Init(void);
 void UART_init(void);
-static void ErrHandler(void);
 static void PlayNote(const MidiNoteEvent_t* note, PWMModule pwmModule, PWMChannel pwmChannel);
 void SwitchHandler(uint32_t pinMap);
 int IsPlaying(void);
 void vSwitchTask(void *pvParameters);
 void vTrackTask(void *pvParameters);
+void vSensorTask(void *pvParameters);
 static int InitHardware(void);
 static int motion_detect(void);
 void print_readings(void);
@@ -50,8 +50,9 @@ void init_vals(void);
 
 uint32_t SystemCoreClock;
 
-static SemaphoreHandle_t playSemaphore_;
+static SemaphoreHandle_t armSemaphore_;
 static SemaphoreHandle_t trackSemaphore_;
+static SemaphoreHandle_t sensorSemaphore_;
 static uint8_t switchPressed_;
 
 volatile uint32_t avg_accX;
@@ -82,51 +83,47 @@ char msg[20];
 
 int main(void)
 {
-//	int  accX, accY, accZ; 
-//	float AX, AY, AZ;
-//	volatile int32_t integerPart, fractionPart;
-//	char sensordata[14];
+	InitHardware();
 	I2C3_Init();
-	Delay(100);
 	MPU9250_Init();
-	Delay(100);
 	UART_init();
 	init_vals();
 	
-//	if (InitHardware() < 0) ErrHandler();
+	armSemaphore_ = xSemaphoreCreateBinary();
+	sensorSemaphore_ = xSemaphoreCreateBinary();
+	trackSemaphore_ = xSemaphoreCreateCounting(4, 0);
 	
-//	playSemaphore_ = xSemaphoreCreateBinary();
-//	trackSemaphore_ = xSemaphoreCreateCounting(4, 0);
-	
-//	if (playSemaphore_ && trackSemaphore_)
-//	{
-//		// The switch task will have a higher priority than the track tasks.
-//		xTaskCreate(vSwitchTask, "Switch Task", 100, NULL, 2, NULL);
-//		
-//		for (int i = 0; i < midi_tune.numTracks && i < 4; i++ ) {		
-//			trackParams_[i].track = &midi_tune.tracks[i];
-//			xTaskCreate(vTrackTask, "Track Task", 100, &trackParams_[i], 1, &trackParams_[i].taskHandle);
-//		}	
-//		
-//		// Startup of the FreeRTOS scheduler.  The program should block here.  
-//		vTaskStartScheduler();
-//	}
-	
-	while(1)
+	if (armSemaphore_ && trackSemaphore_ && sensorSemaphore_)
 	{
-		if(motion_detect())
-		{
-			sprintf(msg, "Motion detected\n\r");
-			printstring(msg);
-		}
-		else
-		{
-			sprintf(msg, "No motion detected\n\r");
-			printstring(msg);
-		}
+		// The switch task will have a higher priority than the track tasks.
+		xTaskCreate(vSwitchTask, "Switch Task", 100, NULL, 3, NULL);
 		
-//		print_readings();
+		xTaskCreate(vSensorTask, "Sensor Task", 100, NULL, 2, NULL);
+		
+		for (int i = 0; i < midi_tune.numTracks && i < 4; i++ )
+		{		
+			trackParams_[i].track = &midi_tune.tracks[i];
+			xTaskCreate(vTrackTask, "Track Task", 100, &trackParams_[i], 1, &trackParams_[i].taskHandle);
+		}
+		// Startup of the FreeRTOS scheduler.  The program should block here.  
+		vTaskStartScheduler();
 	}
+	
+//	while(1)
+//	{
+//		if(motion_detect())
+//		{
+//			sprintf(msg, "Motion detected\n\r");
+//			printstring(msg);
+//		}
+//		else
+//		{
+//			sprintf(msg, "No motion detected\n\r");
+//			printstring(msg);
+//		}
+//		
+//		print_readings();
+//	}
 }
 
 void init_vals(void)
@@ -134,6 +131,8 @@ void init_vals(void)
 	char sensorRaw[6];
 	int accX, accY, accZ;
 	int sum_accX, sum_accY, sum_accZ;
+	
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
 	
 	for(int i = 0; i < 10; i++)
 	{
@@ -151,6 +150,25 @@ void init_vals(void)
 	avg_accX = sum_accX / 10;
 	avg_accY = sum_accY / 10;
 	avg_accZ = sum_accZ / 10;
+	
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0x00);
+}
+
+static int motion_detect(void)
+{
+	char accRaw[6];
+	int accX, accY, accZ;
+	
+	I2C3_Rd(0x68,MPUREG_ACCEL_XOUT_H, 6, accRaw);
+	accX = (int)( (accRaw[0] << 8 ) | accRaw[1] );
+	accY = (int)( (accRaw[2] << 8 ) | accRaw[3] );
+	accZ = (int)( (accRaw[4] << 8 ) | accRaw[5] );
+	Delay(10);
+	
+	if((accX > avg_accX*threshold) || (accY > avg_accY*threshold) || (accZ > avg_accZ*threshold))
+		return 1;
+	else
+		return 0;
 }
 
 void print_readings(void)
@@ -172,35 +190,16 @@ void print_readings(void)
 		printstring(msg);
 }
 
-static int motion_detect(void)
-{
-	char accRaw[6];
-	int accX, accY, accZ;
-	
-	I2C3_Rd(0x68,MPUREG_ACCEL_XOUT_H, 6, accRaw);
-	accX = (int)( (accRaw[0] << 8 ) | accRaw[1] );
-	accY = (int)( (accRaw[2] << 8 ) | accRaw[3] );
-	accZ = (int)( (accRaw[4] << 8 ) | accRaw[5] );
-	Delay(10);
-	
-	if((accX > avg_accX*threshold) || (accY > avg_accY*threshold) || (accZ > avg_accZ*threshold))
-		return 1;
-	else
-		return 0;
-}
-
 void InitConsole(void)
 {
     //
     // Enable GPIO port A which is used for UART0 pins.
-    // TODO: change this to whichever GPIO port you are using.
     //
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 
     //
     // Configure the pin muxing for UART0 functions on port A0 and A1.
     // This step is not necessary if your part does not support pin muxing.
-    // TODO: change this to select the port/pin you are using.
     //
     GPIOPinConfigure(GPIO_PA0_U0RX);
     GPIOPinConfigure(GPIO_PA1_U0TX);
@@ -217,14 +216,8 @@ void InitConsole(void)
 
     //
     // Select the alternate (UART) function for these pins.
-    // TODO: change this to select the port/pin you are using.
     //
     GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
-
-    //
-    // Initialize the UART for console I/O.
-    //
-//    UARTStdioConfig(0, 115200, 16000000);
 }
 
 void MPU9250_Init(void)
@@ -379,19 +372,15 @@ void Delay(unsigned long counter)
 	for(i=0; i< counter*10000; i++);
 }
 
-static void ErrHandler(void)
-{
-	while (1) {}
-}
-
 static void PlayNote(const MidiNoteEvent_t* note, PWMModule pwmModule, PWMChannel pwmChannel)
 {
 	// A zero note or velocity means silence.
-	if (note->key == 0 || note->velocity == 0) {
+	if (note->key == 0 || note->velocity == 0)
+	{
 		PWM_Disable(pwmModule, pwmChannel);
 	}
-	else {
-	
+	else
+	{
 		// For each note we create 50% duty cycle.
 		uint16_t period = Midi_NotePwmPeriods[note->key];
 		uint16_t duty = period / 2;
@@ -409,24 +398,36 @@ void SwitchHandler(uint32_t pinMap)
 	// Record the switch state for the switch task.
 	switchPressed_ = (uint8_t)pinMap;
 	
+	
+	if (switchPressed_ == GPIO_PIN_4)
+	{
+		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3^GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1));
+	}
+	else if (switchPressed_ == GPIO_PIN_0)
+	{
+		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1^GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_3));
+	}
+	
+	
 	// This will attempt a wake the higher priority SwitchTask and continue
 	//	execution there.
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 	
 	// Give the semaphore and unblock the SwitchTask.
-	xSemaphoreGiveFromISR(playSemaphore_, &xHigherPriorityTaskWoken);
+//	xSemaphoreGiveFromISR(armSemaphore_, &xHigherPriorityTaskWoken);
+	xSemaphoreGiveFromISR(sensorSemaphore_, &xHigherPriorityTaskWoken);
 	
 	// If the SwitchTask was successfully woken, then yield execution to it
 	//	and go there now (instead of changing context to another task).
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-
 }
 
 int IsPlaying()
 {
-	// If anyone track is still playing, then the entire tune is playing.
+	// If any one track is still playing, then the entire tune is playing.
 	uint8_t isPlaying = 0;
-	for (int i = 0; i < midi_tune.numTracks; i++ ) {		
+	for (int i = 0; i < midi_tune.numTracks; i++ )
+	{		
 		isPlaying |= trackParams_[i].isPlaying;
 	}
 	return isPlaying;
@@ -436,28 +437,43 @@ void vSwitchTask(void *pvParameters)
 {
 	TickType_t debounceDelay = pdMS_TO_TICKS(250);
 	
-	for (;;) {
-		
+	for (;;)
+	{
 		// Block until the switch ISR has signaled a switch press event...
-		BaseType_t taken = xSemaphoreTake(playSemaphore_, portMAX_DELAY);
-		if (taken == pdPASS) {
-			
+		BaseType_t taken = xSemaphoreTake(armSemaphore_, portMAX_DELAY);
+		
+		if (taken == pdPASS)
+		{
 			// Has SW1 (Play/Stop) been pressed?
-			if (switchPressed_ & PIN4) {
-			
+			if (switchPressed_ & PIN4)
+			{
+				xSemaphoreGive(sensorSemaphore_);
+				
 				// Unblock the track tasks or abort them to play/stop.
-				if (!IsPlaying()) {
-					for (int i = 0; i < midi_tune.numTracks; i++ ) {		
-						trackParams_[i].isPlaying = 1;
-						xSemaphoreGive(trackSemaphore_);
-					}
+//				if (!IsPlaying())
+//				{
+//					for (int i = 0; i < midi_tune.numTracks; i++ )
+//					{		
+//						trackParams_[i].isPlaying = 1;
+//						xSemaphoreGive(trackSemaphore_);
+//					}
+//				}
+//				else
+//				{
+//					for (int i = 0; i < midi_tune.numTracks; i++ )
+//					{	
+//						trackParams_[i].isPlaying = 0;
+//						xTaskAbortDelay(trackParams_[i].taskHandle);
+//					}
+//				}			
+			}
+			else if (switchPressed_ & PIN0)
+			{
+				for (int i = 0; i < midi_tune.numTracks; i++ )
+				{	
+					trackParams_[i].isPlaying = 0;
+					xTaskAbortDelay(trackParams_[i].taskHandle);
 				}
-				else {
-					for (int i = 0; i < midi_tune.numTracks; i++ ) {	
-						trackParams_[i].isPlaying = 0;
-						xTaskAbortDelay(trackParams_[i].taskHandle);
-					}
-				}			
 			}
 		
 			// Wait a bit to debounce the switch.
@@ -473,36 +489,38 @@ void vTrackTask(void *pvParameters)
 {
 	TrackParams_t* params = (TrackParams_t*)pvParameters;
 
-	for (;;) {
-		
+	for (;;)
+	{
 		// Block until its time to play...
 		BaseType_t taken = xSemaphoreTake(trackSemaphore_, portMAX_DELAY);
-		if (taken == pdPASS) {
 		
+		if (taken == pdPASS)
+		{
 			TickType_t xLastWakeTime = xTaskGetTickCount();
 			
 			const MidiNoteEvent_t* notes = params->track->notes;
 			
 			// Play each note.  The notes sequence will end with -1 or when playing 
 			//	has been stopped (task aborted).
-			for (int noteIndex = 0; notes[noteIndex].deltaTime != -1; noteIndex++) {
-
+			for (int noteIndex = 0; notes[noteIndex].deltaTime != -1; noteIndex++)
+			{
 				int deltaTime = notes[noteIndex].deltaTime;
-				if (deltaTime != 0) {
-					
+				if (deltaTime != 0)
+				{
 					// Wait until its time to run the event 
 					vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(deltaTime));	
 					
 					// Stop playing if the track has been aborted.
-					if (!params->isPlaying) {
+					if (!params->isPlaying)
+					{
 						break;
 					}
 				}
 					
 				// Mask out the channel bits (lower nibble).
 				uint8_t status = 0xF0 & notes[noteIndex].status;
-				switch (status) {
-					
+				switch (status)
+				{
 					case NOTE_ON:
 						PlayNote(&notes[noteIndex], params->pwmModule, params->pwmChannel);
 						break;
@@ -512,7 +530,6 @@ void vTrackTask(void *pvParameters)
 						PWM_Disable(params->pwmModule, params->pwmChannel);
 						break;
 				}
-
 			}
 			
 			// Turn off the sound.
@@ -522,6 +539,28 @@ void vTrackTask(void *pvParameters)
 			// TODO:  Changing isPlaying here could cause a race condition.  Might want
 			//	to synchronize access with the SwitchTask.
 			params->isPlaying = 0;
+			
+//			xSemaphoreGive(xSemaphoreCreateBinary());
+			xTaskCreate(vSwitchTask, "Switch Task", 100, NULL, 3, NULL);
+		}
+	}
+}
+
+void vSensorTask(void *pvParameters)
+{
+	for (;;)
+	{
+		BaseType_t taken = xSemaphoreTake(sensorSemaphore_, portMAX_DELAY);
+		if (taken == pdPASS)
+		{
+
+			while(!motion_detect()){}
+				
+			for (int i = 0; i < midi_tune.numTracks; i++ )
+			{		
+				trackParams_[i].isPlaying = 1;
+				xSemaphoreGive(trackSemaphore_);
+			}
 		}
 	}
 }
@@ -544,8 +583,14 @@ static int InitHardware(void)
 	GPIO_EnableInterrupt(&PINDEF(PORTF, PIN4), 7, INT_TRIGGER_FALLING_EDGE, SwitchHandler);
 	
 	// We are going to slow down the PWM clock frequency in order to play notes
-	//	in the neighborhood of middle-C.
+	// in the neighborhood of middle-C.
 	PWM_SetClockDivisor(64);
+	
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+	
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1);
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);
 	
 	__enable_irq();
 	

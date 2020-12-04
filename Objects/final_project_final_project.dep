@@ -1,6 +1,6 @@
 Dependencies for Project 'final_project', Target 'final_project': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
-F (.\final_project.c)(0x5FC7DACF)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\.. -I hal -I drivers -I utilities -I . -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\final_project.o --omf_browse .\objects\final_project.crf --depend .\objects\final_project.d)
+F (.\final_project.c)(0x5FC983A4)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\.. -I hal -I drivers -I utilities -I . -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\final_project.o --omf_browse .\objects\final_project.crf --depend .\objects\final_project.d)
 I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
 I (E:\Keil\ARM\ARMCC\include\stdbool.h)(0x5EC848E6)
 I (E:\Keil\ARM\ARMCC\include\stdlib.h)(0x5EC848EC)
@@ -48,7 +48,7 @@ F (.\startup_rvmdk.S)(0x5FC50D77)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g 
 F (.\midi.h)(0x5FBFE51A)()
 F (.\midi.c)(0x5FBFE505)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\.. -I hal -I drivers -I utilities -I . -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\midi.o --omf_browse .\objects\midi.crf --depend .\objects\midi.d)
 I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
-F (.\midifile\visual-studio\ExportMidi\midi-tune.c)(0x5F8284D7)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\.. -I hal -I drivers -I utilities -I . -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\midi-tune.o --omf_browse .\objects\midi-tune.crf --depend .\objects\midi-tune.d)
+F (.\midifile\midi-tune.c)(0x5FC811D4)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\.. -I hal -I drivers -I utilities -I . -I .\FreeRTOS\include -I .\FreeRTOS\portable\RVDS\ARM_CM4F --c99-IE:\Keil\ARM\RV31\INC-IE:\Keil\ARM\CMSIS\Include-IE:\Keil\ARM\INC\TI\TM4C123-D__UVISION_VERSION="531" -Drvmdk -DPART_TM4C123GH6PM -DTM4C123GH6PM-o .\objects\midi-tune.o --omf_browse .\objects\midi-tune.crf --depend .\objects\midi-tune.d)
 I (.\midi.h)(0x5FBFE51A)
 I (E:\Keil\ARM\ARMCC\include\stdint.h)(0x5EC848EC)
 F (.\FreeRTOSConfig.h)(0x5FC408F8)()
